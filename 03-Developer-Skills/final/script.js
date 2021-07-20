@@ -158,3 +158,15 @@ const printForecast = function (arr) {
 };
 printForecast(data1);
 */
+//Coding Challenge
+const temps = [17, 21, 23];
+let tempString = '';
+
+function temperatureString(temps, tempString) {
+  for (let r = 0; r <= temps.length - 1; r++) {
+    tempString = tempString.concat(`${temps[r]}\u00B0C in ${r + 1} days ... `);
+  }
+  return tempString;
+}
+
+console.log(temperatureString(temps, tempString));
