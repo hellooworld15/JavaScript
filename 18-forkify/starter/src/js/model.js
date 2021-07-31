@@ -10,6 +10,7 @@ export const state = {
     page: 1,
     resultsPerPage: RES_PER_PAGE,
   },
+  bookmarks: [],
 };
 
 export const loadRecipe = async function (id) {
@@ -27,7 +28,7 @@ export const loadRecipe = async function (id) {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients,
     };
-    console.log(state.recipe);
+    // console.log(state.recipe);
   } catch (err) {
     //Temporary error handling
     console.error(`${err} HHH`);
@@ -42,7 +43,7 @@ export const loadSearchResults = async function (query) {
     // console.log(`${API_URL}?search=${query}&key=${API_KEY}`);
     const data = await getJSON(`${API_URL}?search=${query}`);
     //&key=${API_KEY}
-    console.log(data);
+    // console.log(data);
 
     state.search.results = data.data.recipes.map(rec => {
       return {
@@ -52,6 +53,7 @@ export const loadSearchResults = async function (query) {
         image: rec.image_url,
       };
     });
+    state.search.page = 1;
   } catch (err) {
     //Temporary error handling
     console.error(`${err} HHH`);
@@ -68,6 +70,7 @@ export const getSearchResultsPage = function (page = state.search.page) {
 };
 
 export const updateServings = function (newServings) {
+  newServings = parseInt(newServings);
   state.recipe.ingredients.forEach(ing => {
     ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
   });
@@ -75,4 +78,7 @@ export const updateServings = function (newServings) {
   state.recipe.servings = newServings;
 };
 
+export const addBookmark = function (recipe) {
+  state.bookmarks.push(recipe);
+};
 // loadSearchResults('pizza');
